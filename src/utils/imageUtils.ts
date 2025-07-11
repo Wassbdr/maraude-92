@@ -3,14 +3,16 @@
  * This helps reduce Firebase bandwidth usage
  */
 export const getImagePath = (imageName: string, firebaseUrl?: string): string => {
-    // List of images available locally
+    // List of images available locally 
     const localImages = [
       'nousrire.webp',
-      'distribution.webp',
-      'action.webp',
-      'social.webp',
-      'benevoles.webp',
-      'nousrire_logo.svg'
+      'nousrire_logo.svg',
+      'nousrire_bg.webp',
+      'distribution_optimized.webp',
+      'action_optimized.webp',
+      'social_optimized.webp',
+      'benevoles_optimized.webp',
+      'placeholder.webp'
     ];
     
     // If the image name is in our local images list, use the local path

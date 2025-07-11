@@ -41,15 +41,15 @@ const Hero = () => {
   // Memoized array of carousel images to prevent unnecessary re-renders
   const images = useMemo(() => [
     {
-      src: "distribution.webp",
+      src: "distribution_optimized.webp",  
       alt: "Distribution alimentaire"
     },
     {
-      src: "action.webp",
+      src: "action_optimized.webp",        
       alt: "Nos bénévoles en action"
     },
     {
-      src: "social.webp",
+      src: "social_optimized.webp",
       alt: "Moment social avec les bénéficiaires"
     }
   ], []);

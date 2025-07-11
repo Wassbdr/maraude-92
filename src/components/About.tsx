@@ -96,8 +96,8 @@ const About = () => {
               <div className="rounded-xl overflow-hidden shadow-md">
                 <div className="aspect-w-4 aspect-h-3">
                   <OptimizedImage 
-                    src="images/optimized/benevoles.webp"
-                    imageName="benevoles.webp" 
+                    src=""
+                    imageName="benevoles_optimized.webp"
                     alt="Description"
                     width={800}
                     height={600}
