@@ -41,15 +41,15 @@ const Hero = () => {
   // Memoized array of carousel images to prevent unnecessary re-renders
   const images = useMemo(() => [
     {
-      src: "/images/optimized/distribution.webp",
+      src: "distribution.webp",
       alt: "Distribution alimentaire"
     },
     {
-      src: "/images/optimized/action.webp",
+      src: "action.webp",
       alt: "Nos bénévoles en action"
     },
     {
-      src: "/images/optimized/social.webp",
+      src: "social.webp",
       alt: "Moment social avec les bénéficiaires"
     }
   ], []);
@@ -202,8 +202,8 @@ const Hero = () => {
                       <div className="animate-pulse text-brand-pink-500">Chargement...</div>
                     )}
                     <OptimizedImage 
-                      src={image.src} 
-                      imageName={image.src.split('/').pop() || ''}
+                      src=""
+                      imageName={image.src}
                       alt={image.alt}
                       width={800} 
                       height={600}
