@@ -13,7 +13,7 @@ interface CardItemProps {
 
 const About = () => {
   return (
-    <div className="relative py-24 bg-gradient-to-b from-brand-cream-50 via-brand-cream-100 to-brand-cream-100">
+    <div className="relative py-24 bg-transparent">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <motion.div 
@@ -79,7 +79,7 @@ const About = () => {
             delay: 0.2,
           }}
         >
-          <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-12 shadow-lg">
+          <div className="premium-panel p-12">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <h3 className="text-3xl font-bayon text-brand-pink-700 mb-6">
@@ -117,7 +117,7 @@ const About = () => {
 const CardItem = ({ icon, title, description, delay }: CardItemProps) => {
   return (
     <motion.div 
-      className="bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+      className="premium-card p-8 hover:shadow-xl transition-all duration-300"
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-50px" }}
     >

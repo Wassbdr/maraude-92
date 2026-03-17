@@ -35,5 +35,21 @@ export interface Volunteer {
   email: string;
   phone: string;
   message: string;
+  city?: string;
+  availability?: string[];
+  skills?: string[];
+  motivation?: string;
+  status?: 'new' | 'reviewed' | 'contacted' | 'accepted' | 'rejected';
   createdAt: Timestamp;
+}
+
+export interface VolunteerApplicationData {
+  name: string;
+  email: string;
+  phone: string;
+  city: string;
+  availability: string[];
+  skills: string[];
+  motivation: string;
+  distribution?: string;
 }

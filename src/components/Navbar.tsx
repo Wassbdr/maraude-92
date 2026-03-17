@@ -1,11 +1,18 @@
 import { useState, useEffect } from 'react';
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
+
+interface NavbarProps {
+  isDarkMode: boolean;
+  onToggleTheme: () => void;
+}
 
 // Clear navigation component that handles scrolling to page sections
-const Navbar = () => {
+const Navbar = ({ isDarkMode, onToggleTheme }: NavbarProps) => {
   // State management for mobile menu, scroll position and active section
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('accueil');
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,6 +21,8 @@ const Navbar = () => {
       // Detect active section based on scroll position
       const sections = document.querySelectorAll('section[id]');
       const scrollY = window.pageYOffset;
+      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(documentHeight > 0 ? Math.min(scrollY / documentHeight, 1) : 0);
       
       sections.forEach(section => {
         const sectionElement = section as HTMLElement;
@@ -52,7 +61,7 @@ const Navbar = () => {
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${
-      scrolled ? 'bg-white/90 shadow-md' : 'bg-transparent'
+      scrolled ? 'bg-white/85 backdrop-blur-md shadow-md' : 'bg-transparent'
     }`}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
@@ -94,6 +103,25 @@ const Navbar = () => {
             </div>
           </div>
 
+          <div className="hidden md:flex items-center ml-4">
+            <button
+              onClick={onToggleTheme}
+              className={`p-2 rounded-full border transition-colors ${
+                isDarkMode
+                  ? 'border-white/20 bg-slate-900/70 hover:bg-slate-800/80'
+                  : 'border-brand-pink-200 bg-white/70 hover:bg-white'
+              }`}
+              aria-label={isDarkMode ? 'Activer le thème clair' : 'Activer le thème sombre'}
+              title={isDarkMode ? 'Thème clair' : 'Thème sombre'}
+            >
+              {isDarkMode ? (
+                <SunIcon className="h-5 w-5 text-brand-pink-600" />
+              ) : (
+                <MoonIcon className="h-5 w-5 text-brand-pink-700" />
+              )}
+            </button>
+          </div>
+
           {/* Mobile menu button */}
           <div className="md:hidden">
             <button
@@ -126,6 +154,13 @@ const Navbar = () => {
           } overflow-hidden bg-white shadow-lg rounded-b-lg`}
         >
           <div className="px-2 pt-2 pb-3 space-y-1">
+            <button
+              onClick={onToggleTheme}
+              className="flex w-full items-center gap-2 px-3 py-2 rounded-md text-base font-medium text-brand-pink-700 hover:bg-brand-pink-50"
+            >
+              {isDarkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+              {isDarkMode ? 'Thème clair' : 'Thème sombre'}
+            </button>
             {navLinks.map((link) => (
               <button
                 key={link.id}
@@ -142,6 +177,12 @@ const Navbar = () => {
             ))}
           </div>
         </div>
+      </div>
+      <div className="h-[2px] w-full bg-transparent origin-left overflow-hidden">
+        <div
+          className="h-full bg-gradient-to-r from-brand-pink-400 via-brand-pink-500 to-brand-pink-700 transition-transform duration-200"
+          style={{ transform: `scaleX(${scrollProgress})`, transformOrigin: 'left' }}
+        />
       </div>
     </nav>
   );

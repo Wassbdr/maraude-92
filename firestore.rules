@@ -28,8 +28,11 @@ service cloud.firestore {
     match /volunteers/{volunteerId} {
       // Helper functions for rate limiting and duplicate prevention
       function hasNotRecentlySubmitted() {
-        // Check if this email has a recent submission record
-        return !exists(/databases/$(database)/documents/volunteers_submissions/$(request.resource.data.email));
+        // Allow submission if no tracker exists OR tracker expired
+        let submissionPath = /databases/$(database)/documents/volunteers_submissions/$(request.resource.data.email);
+        return !exists(submissionPath)
+          || !(get(submissionPath).data.expiresAt is timestamp)
+          || get(submissionPath).data.expiresAt <= request.time;
       }
       
       function emailNotAlreadyRegistered() {
@@ -59,8 +62,11 @@ service cloud.firestore {
     
     // Track email submissions to prevent spam
     match /volunteers_submissions/{email} {
-      allow create: if true;
-      allow read, update, delete: if isAuthenticated();
+      allow create, update: if
+        request.resource.data.timestamp is timestamp
+        && request.resource.data.expiresAt is timestamp
+        && request.resource.data.expiresAt > request.time;
+      allow read, delete: if isAuthenticated();
     }
     
     // Block access to all other collections

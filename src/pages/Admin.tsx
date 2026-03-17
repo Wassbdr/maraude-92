@@ -15,6 +15,12 @@ interface Volunteer {
   email: string;
   phone: string;
   message: string;
+  city?: string;
+  availability?: string[];
+  skills?: string[];
+  motivation?: string;
+  status?: string;
+  distribution?: string;
   createdAt: Timestamp;
 }
 
@@ -165,6 +171,69 @@ const Admin = () => {
     } catch (err) {
       console.error("Error deleting volunteer:", err);
       setError("Erreur lors de la suppression de la demande de bénévolat");
+    }
+  };
+
+  const exportVolunteersToCSV = () => {
+    if (volunteers.length === 0) return;
+
+    const escapeCSV = (value: string | number | null | undefined) => {
+      const stringValue = String(value ?? '');
+      return `"${stringValue.replace(/"/g, '""')}"`;
+    };
+
+    const headers = [
+      'Nom',
+      'Email',
+      'Téléphone',
+      'Ville',
+      'Disponibilités',
+      'Compétences',
+      'Motivation',
+      'Message',
+      'Statut',
+      'Distribution',
+      'Date'
+    ];
+
+    const rows = volunteers.map((volunteer) => [
+      volunteer.name,
+      volunteer.email,
+      volunteer.phone,
+      volunteer.city || '',
+      (volunteer.availability || []).join(' | '),
+      (volunteer.skills || []).join(' | '),
+      volunteer.motivation || '',
+      volunteer.message || '',
+      volunteer.status || 'new',
+      volunteer.distribution || '',
+      volunteer.createdAt?.toDate ? volunteer.createdAt.toDate().toISOString() : ''
+    ]);
+
+    const csvContent = [headers, ...rows]
+      .map((row) => row.map((cell) => escapeCSV(cell)).join(','))
+      .join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `candidatures-benevoles-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const copyVolunteerEmails = async () => {
+    if (volunteers.length === 0) return;
+    const emailList = volunteers.map((volunteer) => volunteer.email).join('; ');
+    try {
+      await navigator.clipboard.writeText(emailList);
+      setError('Emails copiés dans le presse-papiers ✅');
+      setTimeout(() => setError(null), 2000);
+    } catch (clipboardError) {
+      setError('Impossible de copier les emails automatiquement.');
     }
   };
 
@@ -349,8 +418,22 @@ const Admin = () => {
             </div>
           ) : (
             <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-              <div className="p-6 border-b border-gray-200">
+              <div className="p-6 border-b border-gray-200 flex flex-wrap items-center justify-between gap-3">
                 <h2 className="text-xl font-semibold text-brand-pink-700">Demandes de bénévolat</h2>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={copyVolunteerEmails}
+                    className="px-3 py-2 text-sm rounded-lg border border-brand-pink-200 text-brand-pink-700 hover:bg-brand-pink-50 transition-colors"
+                  >
+                    Copier emails
+                  </button>
+                  <button
+                    onClick={exportVolunteersToCSV}
+                    className="px-3 py-2 text-sm rounded-lg bg-brand-pink-500 text-white hover:bg-brand-pink-600 transition-colors"
+                  >
+                    Export CSV
+                  </button>
+                </div>
               </div>
               
               <div className="divide-y divide-gray-200">

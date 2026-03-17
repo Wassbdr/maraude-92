@@ -5,6 +5,7 @@ import {
   doc, 
   deleteDoc,
   updateDoc,
+  setDoc,
   Timestamp, 
   query, 
   orderBy,
@@ -18,7 +19,7 @@ import {
   deleteObject 
 } from 'firebase/storage';
 import { db, storage } from '../config/firebase';
-import { NewsItem, NewsFormData, Event, EventFormData, Volunteer } from '../types';
+import { NewsItem, NewsFormData, Event, EventFormData, Volunteer, VolunteerApplicationData } from '../types';
 import { compressImage } from './imageCompression';
 
 // News functions with limit
@@ -261,6 +262,11 @@ export const getVolunteers = async (): Promise<Volunteer[]> => {
         email: data.email,
         phone: data.phone,
         message: data.message || '',
+        city: data.city || '',
+        availability: Array.isArray(data.availability) ? data.availability : [],
+        skills: Array.isArray(data.skills) ? data.skills : [],
+        motivation: data.motivation || '',
+        status: data.status || 'new',
         distribution: data.distribution || '',
         createdAt: data.createdAt
       };
@@ -270,6 +276,38 @@ export const getVolunteers = async (): Promise<Volunteer[]> => {
     // Add more specific error handling
     if (error instanceof Error && error.toString().includes('Missing or insufficient permissions')) {
       throw new Error('Erreur d\'accès: Assurez-vous d\'être correctement connecté avec un compte autorisé.');
+    }
+    throw error;
+  }
+};
+
+export const addVolunteerApplication = async (applicationData: VolunteerApplicationData): Promise<void> => {
+  try {
+    const normalizedEmail = applicationData.email.trim().toLowerCase();
+    const submissionRef = doc(db, 'volunteers_submissions', normalizedEmail);
+
+    await addDoc(collection(db, 'volunteers'), {
+      name: applicationData.name.trim(),
+      email: normalizedEmail,
+      phone: applicationData.phone.trim(),
+      city: applicationData.city.trim(),
+      availability: applicationData.availability,
+      skills: applicationData.skills,
+      motivation: applicationData.motivation.trim(),
+      message: applicationData.motivation.trim(),
+      distribution: applicationData.distribution || '',
+      status: 'new',
+      createdAt: Timestamp.now()
+    });
+
+    await setDoc(submissionRef, {
+      timestamp: Timestamp.now(),
+      expiresAt: Timestamp.fromDate(new Date(Date.now() + 24 * 60 * 60 * 1000))
+    });
+  } catch (error) {
+    console.error('Error adding volunteer application:', error);
+    if (error instanceof Error && error.message.toLowerCase().includes('missing or insufficient permissions')) {
+      throw new Error('Envoi impossible pour le moment. Vérifiez les règles Firestore (collection volunteers / volunteers_submissions).');
     }
     throw error;
   }

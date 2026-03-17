@@ -24,7 +24,7 @@ const Donate = () => {
   };
 
   return (
-    <section className="py-16 bg-brand-cream-100">
+    <section className="py-16 donate-surface">
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -43,14 +43,14 @@ const Donate = () => {
 
         <motion.div
           variants={itemVariants}
-          className="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8 text-center"
+          className="max-w-md mx-auto premium-card p-8 text-center"
         >
           <GiftIcon className="h-16 w-16 text-brand-pink-500 mx-auto mb-6" />
           <h3 className="text-2xl font-semibold text-brand-pink-700 mb-4">
-            Faire un don via PayPal
+            Faire un don via HelloAsso
           </h3>
           <p className="text-brand-pink-600 mb-8">
-            Cliquez sur le bouton ci-dessous pour faire un don sécurisé via PayPal
+            Cliquez sur le bouton ci-dessous pour faire un don sécurisé via HelloAsso
           </p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -59,12 +59,12 @@ const Donate = () => {
             className="mt-8"
           >
             <a
-              href="https://www.paypal.me/maraude092"
+              href="https://www.helloasso.com/associations/nous-rire"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 transition-colors duration-200"
             >
-              Faire un don via PayPal
+              Faire un don via HelloAsso
             </a>
           </motion.div>
         </motion.div>

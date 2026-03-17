@@ -71,7 +71,7 @@ const News = () => {
   };
 
   return (
-    <div className="relative py-24 overflow-hidden bg-gradient-to-b from-brand-cream-100 via-brand-cream-100 to-brand-cream-50">
+    <div className="relative py-24 overflow-hidden bg-transparent">
       <div className="relative container mx-auto px-4">
         {/* Header */}
         <motion.div

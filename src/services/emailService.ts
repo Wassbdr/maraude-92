@@ -31,7 +31,7 @@ Chaleureusement,
 L'équipe Nous'Rire
 https://nousrire.org
 Suivez-nous sur les réseaux sociaux :
-Instagram: @maraude092
+Instagram: @nousrire.asso
 Snapchat: @maraude92
 Pour toute question, vous pouvez nous contacter à l'adresse suivante :
 nousrire.contact@gmail.com

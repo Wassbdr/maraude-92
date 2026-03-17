@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { OptimizedImage } from './OptimizedImage';
@@ -9,6 +9,8 @@ interface Stat {
 }
 
 const Hero = () => {
+  const sectionRef = useRef<HTMLElement | null>(null);
+
   // Animation variants for container elements with staggered children
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -56,6 +58,14 @@ const Hero = () => {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageLoaded, setImageLoaded] = useState<boolean[]>(new Array(images.length).fill(false));
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start']
+  });
+  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const foregroundY = useTransform(scrollYProgress, [0, 1], [0, 50]);
+  const glowOpacity = useTransform(scrollYProgress, [0, 1], [0.28, 0.08]);
 
   // Reference to track and manage the carousel interval
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -124,10 +134,18 @@ const Hero = () => {
   return (
     <section 
       id="accueil" 
-      className="relative bg-gradient-to-b from-brand-cream-50 via-brand-cream-100 to-brand-cream-50 overflow-hidden pt-20 pb-12"
+      ref={sectionRef}
+      className="relative bg-transparent overflow-hidden pt-20 pb-12"
     >
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{ opacity: glowOpacity }}
+      >
+        <div className="h-full w-full bg-[radial-gradient(circle_at_15%_30%,rgba(244,114,182,0.22),transparent_38%),radial-gradient(circle_at_80%_70%,rgba(251,146,60,0.16),transparent_42%)]" />
+      </motion.div>
+
       {/* Background logo with reduced opacity lower*/}
-      <div className="absolute inset-0 glex items-center justify-center opacity-20">
+      <motion.div className="absolute inset-0 flex items-center justify-center opacity-20" style={{ y: backgroundY }}>
         <OptimizedImage 
           src="/images/optimized/nousrire_bg.webp" 
           imageName="nousrire_bg.webp"
@@ -136,7 +154,7 @@ const Hero = () => {
           height={1080}
           className="w-[120%] h-[150%] object-cover"
         />
-      </div>
+      </motion.div>
 
       <motion.div
         initial="hidden"
@@ -180,6 +198,7 @@ const Hero = () => {
 
           <motion.div
             className="relative"
+            style={{ y: foregroundY }}
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -270,7 +289,7 @@ const Hero = () => {
             <motion.div
               key={stat.label}
               variants={itemVariants}
-              className="text-center bg-white/40 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300"
+              className="premium-card-soft text-center rounded-lg p-6 hover:shadow-xl transition-shadow duration-300"
             >
               <div className="text-4xl md:text-5xl font-bold text-brand-pink-700 mb-2">
                 {stat.value}
