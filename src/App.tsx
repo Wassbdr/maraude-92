@@ -107,30 +107,30 @@ const AppContent = () => {
                   <motion.section
                     id="accueil"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
                     whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: true, margin: '-120px' }}
-                    transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
                   >
                     <Hero />
                   </motion.section>
                   <motion.section
                     id="mission"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
                     whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: true, margin: '-120px' }}
-                    transition={{ duration: 0.9, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.05, ease: 'easeOut' }}
                   >
                     <About />
                   </motion.section>
                   <motion.section
                     id="actions"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
                     whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: true, margin: '-120px' }}
-                    transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
                     <Suspense fallback={<div>Loading...</div>}>
                       <News />
@@ -139,40 +139,40 @@ const AppContent = () => {
                   <motion.section
                     id="calendrier"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
                     whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: true, margin: '-120px' }}
-                    transition={{ duration: 0.9, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
                     <Events />
                   </motion.section>
                   <motion.section
                     id="benevole"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
                     whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: true, margin: '-120px' }}
-                    transition={{ duration: 0.95, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
                     <Volunteer />
                   </motion.section>
                   <motion.section
                     id="don"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
                     whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: true, margin: '-120px' }}
-                    transition={{ duration: 0.95, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
                     <Donate />
                   </motion.section>
                   <motion.section
                     id="contact"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
                     whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: true, margin: '-120px' }}
-                    transition={{ duration: 0.95, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
                     <Contact />
                   </motion.section>

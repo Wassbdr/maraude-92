@@ -15,20 +15,18 @@ export const sendVolunteerToGoogleSheets = async (application: VolunteerApplicat
 
   const payloadString = JSON.stringify(payload);
 
-  if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
-    const sent = navigator.sendBeacon(GOOGLE_SHEETS_WEBHOOK_URL, payloadString);
-    if (sent) {
-      return;
-    }
-  }
+  try {
+    const response = await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: payloadString
+    });
 
-  await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    keepalive: true,
-    headers: {
-      'Content-Type': 'text/plain;charset=utf-8'
-    },
-    body: payloadString
-  });
+    const result = await response.text();
+    console.log('Google Sheets webhook result:', result);
+  } catch (error) {
+    console.error('Error sending volunteer to Google Sheets:', error);
+  }
 };
