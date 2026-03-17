@@ -52,14 +52,6 @@ const Volunteer = () => {
     company: ''
   });
 
-  const [touched, setTouched] = useState({
-    name: false,
-    email: false,
-    phone: false,
-    city: false,
-    motivation: false
-  });
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -81,7 +73,7 @@ const Volunteer = () => {
     }
   };
 
-  const stepProgress = useMemo(() => (step / 3) * 100, [step]);
+  const stepProgress = useMemo(() => (step / 2) * 100, [step]);
 
   const handleMagneticMove = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     const element = event.currentTarget;
@@ -95,42 +87,9 @@ const Volunteer = () => {
     event.currentTarget.style.transform = 'translate(0px, 0px) scale(1)';
   }, []);
 
-  const getFieldError = (field: 'name' | 'email' | 'phone' | 'city' | 'motivation') => {
-    if (!touched[field]) return null;
-
-    switch (field) {
-      case 'name':
-        return formData.name.trim().length < 3 ? 'Le nom doit contenir au moins 3 caractères.' : null;
-      case 'email':
-        return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()) ? 'Adresse email invalide.' : null;
-      case 'phone':
-        return !/^(\+\d{1,3})?[\s\d]{9,14}$/.test(formData.phone.trim()) ? 'Numéro de téléphone invalide.' : null;
-      case 'city':
-        return formData.city.trim().length < 2 ? 'Ville invalide.' : null;
-      case 'motivation':
-        return formData.motivation.trim().length < 15 ? 'Ajoutez au moins 15 caractères de motivation.' : null;
-      default:
-        return null;
-    }
-  };
-
-  const canGoToStep2 = () => {
-    const nameOk = formData.name.trim().length >= 3;
-    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim());
-    const phoneOk = /^(\+\d{1,3})?[\s\d]{9,14}$/.test(formData.phone.trim());
-    const cityOk = formData.city.trim().length >= 2;
-    return nameOk && emailOk && phoneOk && cityOk;
-  };
-
-  const canGoToStep3 = () => formData.availability.length > 0 && formData.motivation.trim().length >= 15;
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleBlur = (field: 'name' | 'email' | 'phone' | 'city' | 'motivation') => {
-    setTouched(prev => ({ ...prev, [field]: true }));
   };
 
   const toggleArrayValue = (field: 'availability' | 'skills', value: string) => {
@@ -143,17 +102,7 @@ const Volunteer = () => {
   };
 
   const nextStep = () => {
-    if (step === 1) {
-      setTouched(prev => ({ ...prev, name: true, email: true, phone: true, city: true }));
-      if (!canGoToStep2()) return;
-    }
-
-    if (step === 2) {
-      setTouched(prev => ({ ...prev, motivation: true }));
-      if (!canGoToStep3()) return;
-    }
-
-    setStep(prev => Math.min(prev + 1, 3));
+    setStep(prev => Math.min(prev + 1, 2));
   };
 
   const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
@@ -170,7 +119,6 @@ const Volunteer = () => {
       distribution: selectedDistribution?.id || '',
       company: ''
     });
-    setTouched({ name: false, email: false, phone: false, city: false, motivation: false });
     setStep(1);
     setSubmitStatus('idle');
     setError(null);
@@ -178,6 +126,11 @@ const Volunteer = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (step < 2) {
+      nextStep();
+      return;
+    }
 
     if (formData.company.trim()) {
       return;
@@ -194,12 +147,6 @@ const Volunteer = () => {
     if (lastSubmitTime && Date.now() - Number.parseInt(lastSubmitTime, 10) < cooldownPeriod) {
       setSubmitStatus('error');
       setError('Vous avez déjà envoyé une candidature récemment. Réessayez dans 24h.');
-      return;
-    }
-
-    if (!canGoToStep2() || !canGoToStep3()) {
-      setSubmitStatus('error');
-      setError('Veuillez compléter correctement les étapes précédentes.');
       return;
     }
 
@@ -256,12 +203,10 @@ const Volunteer = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                onBlur={() => handleBlur('name')}
                 placeholder="Ex: Fatima Benali"
                 className="input bg-white/90"
                 required
               />
-              {getFieldError('name') && <p className="text-sm text-red-500 mt-1">{getFieldError('name')}</p>}
             </div>
 
             <div>
@@ -274,12 +219,10 @@ const Volunteer = () => {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                onBlur={() => handleBlur('email')}
                 placeholder="votre.email@exemple.com"
                 className="input bg-white/90"
                 required
               />
-              {getFieldError('email') && <p className="text-sm text-red-500 mt-1">{getFieldError('email')}</p>}
             </div>
 
             <div>
@@ -291,12 +234,10 @@ const Volunteer = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                onBlur={() => handleBlur('phone')}
                 placeholder="06 12 34 56 78"
                 className="input bg-white/90"
                 required
               />
-              {getFieldError('phone') && <p className="text-sm text-red-500 mt-1">{getFieldError('phone')}</p>}
             </div>
 
             <div>
@@ -308,22 +249,19 @@ const Volunteer = () => {
                 name="city"
                 value={formData.city}
                 onChange={handleChange}
-                onBlur={() => handleBlur('city')}
                 placeholder="Ex: Nanterre"
                 className="input bg-white/90"
                 required
               />
-              {getFieldError('city') && <p className="text-sm text-red-500 mt-1">{getFieldError('city')}</p>}
             </div>
           </div>
         </motion.div>
       );
     }
 
-    if (step === 2) {
-      return (
-        <motion.div key="step-2" initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}>
-          <h3 className="text-2xl font-bold text-brand-pink-700 mb-6">Disponibilités & compétences</h3>
+    return (
+      <motion.div key="step-2" initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}>
+        <h3 className="text-2xl font-bold text-brand-pink-700 mb-6">Disponibilités & compétences</h3>
 
           <div className="mb-6">
             <p className="text-brand-pink-700 font-medium mb-3">Quand êtes-vous disponible ?</p>
@@ -374,44 +312,12 @@ const Volunteer = () => {
               name="motivation"
               value={formData.motivation}
               onChange={handleChange}
-              onBlur={() => handleBlur('motivation')}
               rows={4}
               className="input bg-white/90"
               placeholder="Expliquez en quelques mots pourquoi vous souhaitez rejoindre Nous'Rire..."
               required
             />
-            {getFieldError('motivation') && <p className="text-sm text-red-500 mt-1">{getFieldError('motivation')}</p>}
           </div>
-        </motion.div>
-      );
-    }
-
-    return (
-      <motion.div key="step-3" initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}>
-        <h3 className="text-2xl font-bold text-brand-pink-700 mb-6">Vérification finale</h3>
-
-        <div className="grid gap-4">
-          <div className="premium-card-soft p-4">
-            <p className="text-sm text-brand-pink-400">Identité</p>
-            <p className="font-semibold text-brand-pink-700">{formData.name} · {formData.city}</p>
-            <p className="text-brand-pink-600 text-sm">{formData.email} · {formData.phone}</p>
-          </div>
-
-          <div className="premium-card-soft p-4">
-            <p className="text-sm text-brand-pink-400">Disponibilités</p>
-            <p className="font-semibold text-brand-pink-700">{formData.availability.join(' · ') || 'Non renseigné'}</p>
-          </div>
-
-          <div className="premium-card-soft p-4">
-            <p className="text-sm text-brand-pink-400">Compétences</p>
-            <p className="font-semibold text-brand-pink-700">{formData.skills.join(' · ') || 'Aucune sélection'}</p>
-          </div>
-
-          <div className="premium-card-soft p-4">
-            <p className="text-sm text-brand-pink-400">Motivation</p>
-            <p className="text-brand-pink-700">{formData.motivation}</p>
-          </div>
-        </div>
       </motion.div>
     );
   };
@@ -443,8 +349,8 @@ const Volunteer = () => {
                 <p className="text-brand-pink-700 font-semibold">Pourquoi candidater ?</p>
               </div>
               <ul className="space-y-2 text-brand-pink-700/80 text-sm">
-                <li>• Processus en 3 étapes en moins de 2 minutes</li>
-                <li>• Candidature stockée de façon sécurisée</li>
+                <li>• Processus en 2 étapes en moins de 2 minutes</li>
+                <li>• Vos informations sont protégées et utilisées uniquement pour vous recontacter</li>
                 <li>• Rejoignez une équipe passionnée et engagée</li>
               </ul>
             </div>
@@ -478,7 +384,7 @@ const Volunteer = () => {
 
             <div className="mb-7">
               <div className="flex justify-between text-xs text-brand-pink-500 mb-2">
-                <span>Étape {step}/3</span>
+                <span>Étape {step}/2</span>
                 <span>{Math.round(stepProgress)}%</span>
               </div>
               <div className="h-2 w-full bg-brand-pink-100 rounded-full overflow-hidden">
@@ -505,7 +411,7 @@ const Volunteer = () => {
                 </button>
               )}
 
-              {step < 3 ? (
+              {step < 2 ? (
                 <button
                   type="button"
                   onClick={nextStep}
