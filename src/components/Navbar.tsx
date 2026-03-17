@@ -92,20 +92,19 @@ const Navbar = ({ isDarkMode, onToggleTheme }: NavbarProps) => {
   ];
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${
-      scrolled ? 'bg-white/85 backdrop-blur-md shadow-md' : 'bg-transparent'
-    }`}>
+    <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'py-2 bg-white/70 backdrop-blur-xl shadow-premium' : 'py-4 bg-transparent'
+      }`}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center">
+          <div className="flex items-center cursor-pointer group" onClick={() => scrollToSection('accueil')}>
             <img
               src="/images/nousrire_logo.svg"
               alt="Nous'Rire Logo"
-              className="h-12 w-auto transform hover:scale-105 transition-transform duration-300"
+              className="h-14 w-auto transform group-hover:scale-110 transition-transform duration-500"
             />
-            {/* Title with gradient*/}
-            <span className="ml-3 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-cream-500 to-brand-pink-500">
+            {/* Title with premium gradient*/}
+            <span className="ml-3 text-2xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-brand-cream-500 to-brand-pink-700">
               NOUS'RIRE
             </span>
           </div>
@@ -117,19 +116,18 @@ const Navbar = ({ isDarkMode, onToggleTheme }: NavbarProps) => {
                 <button
                   key={link.id}
                   onClick={() => scrollToSection(link.id)}
-                  className={`relative py-2 text-base font-medium transition-colors whitespace-nowrap
+                  className={`relative py-2 text-sm font-bold uppercase tracking-widest transition-all duration-300 whitespace-nowrap px-3
                     ${activeSection === link.id
                       ? 'text-brand-pink-500'
-                      : 'text-brand-pink-700 hover:text-brand-pink-500'
+                      : 'text-brand-pink-900/60 hover:text-brand-pink-500'
                     }
-                    after:content-[''] after:absolute after:bottom-0 after:left-0 
-                    after:w-full after:h-0.5 after:bg-brand-pink-500
-                    after:transform after:scale-x-0 after:transition-transform
-                    hover:after:scale-x-100
-                    ${activeSection === link.id ? 'after:scale-x-100' : ''}
+                    group
                   `}
                 >
                   {link.label}
+                  <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-brand-pink-500 transform transition-transform duration-300 
+                    ${activeSection === link.id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}
+                  />
                 </button>
               ))}
             </div>
@@ -138,11 +136,10 @@ const Navbar = ({ isDarkMode, onToggleTheme }: NavbarProps) => {
           <div className="hidden md:flex items-center ml-4">
             <button
               onClick={onToggleTheme}
-              className={`p-2 rounded-full border transition-colors ${
-                isDarkMode
-                  ? 'border-white/20 bg-slate-900/70 hover:bg-slate-800/80'
-                  : 'border-brand-pink-200 bg-white/70 hover:bg-white'
-              }`}
+              className={`p-2 rounded-full border transition-colors ${isDarkMode
+                ? 'border-white/20 bg-slate-900/70 hover:bg-slate-800/80'
+                : 'border-brand-pink-200 bg-white/70 hover:bg-white'
+                }`}
               aria-label={isDarkMode ? 'Activer le thème clair' : 'Activer le thème sombre'}
               title={isDarkMode ? 'Thème clair' : 'Thème sombre'}
             >
@@ -181,32 +178,33 @@ const Navbar = ({ isDarkMode, onToggleTheme }: NavbarProps) => {
 
         {/* Mobile menu */}
         <div
-          className={`md:hidden transition-all duration-300 ease-in-out ${
-            isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
-          } overflow-hidden bg-white shadow-lg rounded-b-lg`}
+          className={`md:hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-screen opacity-100 py-6' : 'max-h-0 opacity-0'
+            } overflow-hidden bg-white/95 backdrop-blur-xl border-t border-brand-pink-50`}
         >
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            <button
-              onClick={onToggleTheme}
-              className="flex w-full items-center gap-2 px-3 py-2 rounded-md text-base font-medium text-brand-pink-700 hover:bg-brand-pink-50"
-            >
-              {isDarkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
-              {isDarkMode ? 'Thème clair' : 'Thème sombre'}
-            </button>
+          <div className="px-6 space-y-4">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollToSection(link.id)}
-                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium
+                className={`block w-full text-left text-lg font-bold uppercase tracking-widest transition-all
                   ${activeSection === link.id
-                    ? 'bg-brand-pink-50 text-brand-pink-500'
-                    : 'text-brand-pink-700 hover:bg-brand-pink-50 hover:text-brand-pink-500'
+                    ? 'text-brand-pink-500 pl-4 border-l-4 border-brand-pink-500'
+                    : 'text-brand-pink-900/60 hover:text-brand-pink-500 hover:pl-2'
                   }
                 `}
               >
                 {link.label}
               </button>
             ))}
+            <button
+              onClick={onToggleTheme}
+              className="flex w-full items-center gap-3 py-4 border-t border-brand-pink-50 text-brand-pink-900/60 font-bold uppercase tracking-widest"
+            >
+              <div className="p-2 rounded-full bg-brand-pink-50">
+                {isDarkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+              </div>
+              {isDarkMode ? 'Thème clair' : 'Thème sombre'}
+            </button>
           </div>
         </div>
       </div>

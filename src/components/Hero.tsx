@@ -43,11 +43,11 @@ const Hero = () => {
   // Memoized array of carousel images to prevent unnecessary re-renders
   const images = useMemo(() => [
     {
-      src: "distribution_optimized.webp",  
+      src: "distribution_optimized.webp",
       alt: "Distribution alimentaire"
     },
     {
-      src: "action_optimized.webp",        
+      src: "action_optimized.webp",
       alt: "Nos bénévoles en action"
     },
     {
@@ -77,7 +77,7 @@ const Hero = () => {
     }
 
     intervalRef.current = setInterval(() => {
-      setCurrentImageIndex(prevIndex => 
+      setCurrentImageIndex(prevIndex =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
     }, 5000);
@@ -85,14 +85,14 @@ const Hero = () => {
 
   // Manual carousel navigation with timer reset
   const goToNextImage = useCallback(() => {
-    setCurrentImageIndex(prevIndex => 
+    setCurrentImageIndex(prevIndex =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
     resetTimer();
   }, [images.length, resetTimer]);
 
   const goToPreviousImage = useCallback(() => {
-    setCurrentImageIndex(prevIndex => 
+    setCurrentImageIndex(prevIndex =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
     resetTimer();
@@ -132,8 +132,8 @@ const Hero = () => {
   }, [images]);
 
   return (
-    <section 
-      id="accueil" 
+    <section
+      id="accueil"
       ref={sectionRef}
       className="relative bg-transparent overflow-hidden pt-20 pb-12"
     >
@@ -146,13 +146,13 @@ const Hero = () => {
 
       {/* Background logo with reduced opacity lower*/}
       <motion.div className="absolute inset-0 flex items-center justify-center opacity-20" style={{ y: backgroundY }}>
-        <OptimizedImage 
-          src="/images/optimized/nousrire_bg.webp" 
+        <OptimizedImage
+          src="/images/optimized/nousrire_bg.webp"
           imageName="nousrire_bg.webp"
-          alt="Background Logo" 
+          alt="Background Logo"
           width={1920}
           height={1080}
-          className="w-[120%] h-[150%] object-cover"
+          className="w-[120%] h-[150%] object-cover hero-bg-logo"
         />
       </motion.div>
 
@@ -164,32 +164,36 @@ const Hero = () => {
       >
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex flex-col"
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-brand-pink-dark mb-6">
-              Ensemble, luttons contre la précarité alimentaire
+            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
+              <span className="text-brand-pink-dark">Ensemble, luttons</span>
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink-500 to-brand-pink-700">
+                contre la précarité
+              </span>
             </h1>
-            <p className="text-lg text-brand-pink-dark/80 mb-8">
-              Nous'Rire est une association caritative qui s'engage à distribuer des denrées alimentaires 
-              aux personnes dans le besoin. Notre mission est de garantir l'accès à une alimentation 
-              saine et équilibrée pour tous.
+            <p className="text-xl text-brand-pink-900/70 mb-10 leading-relaxed max-w-xl">
+              Nous'Rire est une association engagée qui transforme la solidarité en actions concrètes.
+              Garantissons ensemble l'accès à une alimentation saine pour tous.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-5">
               <motion.a
                 href="#benevole"
-                className="btn-primary bg-brand-pink hover:bg-brand-pink-dark text-white px-8 py-3 rounded-full font-medium transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="btn-primary"
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.98 }}
               >
                 Devenir Bénévole
               </motion.a>
               <motion.a
                 href="#calendrier"
-                className="btn-secondary border-2 border-brand-pink bg-brand-cream hover:bg-brand-pink-dark hover:text-white px-8 py-3 rounded-full font-medium transition-colors text-brand-pink-dark"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="btn-secondary"
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.98 }}
               >
                 Voir le Calendrier
               </motion.a>
@@ -199,17 +203,17 @@ const Hero = () => {
           <motion.div
             className="relative"
             style={{ y: foregroundY }}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
           >
-            <div className="aspect-w-3 aspect-h-3 rounded-lg overflow-hidden shadow-xl relative">
+            <div className="aspect-w-4 aspect-h-3 rounded-[2.5rem] overflow-hidden shadow-2xl relative border-8 border-white">
               {images.map((image, index) => (
                 <motion.div
                   key={index}
                   className="absolute inset-0"
                   initial={{ opacity: 0 }}
-                  animate={{ 
+                  animate={{
                     opacity: index === currentImageIndex ? 1 : 0,
                     zIndex: index === currentImageIndex ? 1 : 0
                   }}
@@ -220,11 +224,11 @@ const Hero = () => {
                     {imageLoaded[index] ? null : (
                       <div className="animate-pulse text-brand-pink-500">Chargement...</div>
                     )}
-                    <OptimizedImage 
+                    <OptimizedImage
                       src=""
                       imageName={image.src}
                       alt={image.alt}
-                      width={800} 
+                      width={800}
                       height={600}
                       className={`object-cover w-full h-full ${!imageLoaded[index] && 'opacity-0'}`}
                       onLoad={() => handleImageLoaded(index)}
@@ -232,10 +236,10 @@ const Hero = () => {
                   </div>
                 </motion.div>
               ))}
-              
+
               {/* Navigation buttons for carousel */}
               <div className="absolute inset-0 flex items-center justify-between p-4 z-10">
-                <button 
+                <button
                   onClick={(e) => {
                     e.preventDefault();
                     goToPreviousImage();
@@ -245,7 +249,7 @@ const Hero = () => {
                 >
                   <ChevronLeftIcon className="h-6 w-6 text-brand-pink-dark" />
                 </button>
-                <button 
+                <button
                   onClick={(e) => {
                     e.preventDefault();
                     goToNextImage();
@@ -257,7 +261,7 @@ const Hero = () => {
                 </button>
               </div>
             </div>
-            
+
             {/* Indicator dots for current slide */}
             <div className="flex justify-center mt-4 space-x-2">
               {images.map((_, index) => (
@@ -267,12 +271,11 @@ const Hero = () => {
                   className="focus:outline-none"
                   aria-label={`Image ${index + 1}`}
                 >
-                  <motion.div 
-                    className={`w-2 h-2 rounded-full ${
-                      index === currentImageIndex ? 'bg-brand-pink' : 'bg-gray-300'
-                    }`}
+                  <motion.div
+                    className={`w-2 h-2 rounded-full ${index === currentImageIndex ? 'bg-brand-pink' : 'bg-gray-300'
+                      }`}
                     initial={false}
-                    animate={{ 
+                    animate={{
                       scale: index === currentImageIndex ? 1.5 : 1,
                       backgroundColor: index === currentImageIndex ? '#E11D48' : '#D1D5DB'
                     }}
@@ -284,17 +287,17 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
               variants={itemVariants}
-              className="premium-card-soft text-center rounded-lg p-6 hover:shadow-xl transition-shadow duration-300"
+              className="premium-card-soft text-center p-8 border-none"
             >
-              <div className="text-4xl md:text-5xl font-bold text-brand-pink-700 mb-2">
+              <div className="text-5xl font-bayon text-brand-pink-500 mb-3 tracking-wider">
                 {stat.value}
               </div>
-              <div className="text-lg text-brand-pink-600">
+              <div className="text-sm uppercase tracking-widest text-brand-pink-900/60 font-bold">
                 {stat.label}
               </div>
             </motion.div>

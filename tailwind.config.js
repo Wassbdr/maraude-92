@@ -9,28 +9,29 @@ module.exports = {
       colors: {
         'brand': {
           pink: {
-            50: '#FFF5F8',
-            100: '#FFE6EE',
-            200: '#FFD6E6',
+            50: '#FFF9FB',
+            100: '#FFF1F6',
+            200: '#FFE1ED',
             300: '#FFA6D5',
             400: '#FF87C3',
-            500: '#feaba3', // Base pink
-            600: '#ff71b8',
+            500: '#feaba3', // Primary base
+            600: '#f8948d', // Softer hover
             700: '#D4367D',
             800: '#A62E6B',
-            900: '#7A2250', 
+            900: '#7A2250',
+            dark: '#4a112c',
           },
           cream: {
-            50: '#FFFBF5',
-            100: '#FFF9E8',
-            200: '#FFF3D6',
-            300: '#FFE4B5',
-            400: '#FFD89A',
+            50: '#FDFBFA',
+            100: '#FCF8F4',
+            200: '#F9F1E8',
+            300: '#F4E3D0',
+            400: '#EDCEA9',
             500: '#fbe7b4', // Base cream
-            600: '#FFB366',
-            700: '#FF994D',
-            800: '#FF8033',
-            900: '#FF661A',
+            600: '#f5d68d',
+            700: '#e1a661',
+            800: '#c27e3d',
+            900: '#8c5024',
           }
         }
       },
@@ -66,9 +67,15 @@ module.exports = {
           '100%': { transform: 'translateX(0)' },
         },
       },
+      boxShadow: {
+        'premium': '0 10px 30px -5px rgba(254, 171, 163, 0.15)',
+        'premium-hover': '0 20px 40px -10px rgba(254, 171, 163, 0.25)',
+        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-fade': 'linear-gradient(180deg, var(--tw-gradient-stops))',
+        'premium-gradient': 'linear-gradient(135deg, #fbe7b4 0%, #feaba3 100%)',
       },
     },
   },

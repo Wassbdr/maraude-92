@@ -17,7 +17,12 @@
     overflow-y: auto;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-bold tracking-tight;
   }
 }
@@ -43,7 +48,7 @@
 }
 
 .theme-dark .app-shell {
-  background: linear-gradient(to bottom, #0a0d14, #0f1420, #0a0d14) !important;
+  background: linear-gradient(to bottom, #06080c, #0a0e17, #06080c) !important;
 }
 
 .theme-dark .noise-overlay {
@@ -61,10 +66,12 @@
   background-color: rgba(15, 22, 36, 0.86) !important;
 }
 
+.theme-dark [class*='text-brand-pink-900'],
+.theme-dark [class*='text-brand-pink-800'],
 .theme-dark [class*='text-brand-pink-700'],
 .theme-dark [class*='text-brand-pink-600'],
 .theme-dark [class*='text-brand-pink-dark'] {
-  color: #f4f6fb !important;
+  color: #e2e8f0 !important;
 }
 
 .theme-dark [class*='text-brand-pink-500'],
@@ -90,10 +97,12 @@
   background-image: linear-gradient(to bottom, #0b0f19, #101726, #0c1220) !important;
 }
 
+.theme-dark .text-brand-pink-900\/70,
+.theme-dark .text-brand-pink-900\/60,
 .theme-dark .text-brand-pink-700\/80,
 .theme-dark .text-brand-pink-600\/80,
 .theme-dark .text-brand-pink-dark\/80 {
-  color: rgba(234, 241, 255, 0.82) !important;
+  color: rgba(226, 232, 240, 0.7) !important;
 }
 
 .theme-dark ::placeholder {
@@ -112,76 +121,59 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-full font-medium
-      transition-all duration-300 transform hover:scale-105 active:scale-95
-      focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold transition-all duration-500 transform hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 relative overflow-hidden;
   }
 
   .btn-primary {
-    @apply btn bg-brand-pink-500 text-white hover:bg-brand-pink-600
-      focus:ring-brand-pink-500;
+    @apply btn bg-brand-pink-500 text-white shadow-premium hover:shadow-premium-hover focus:ring-brand-pink-500 border-none;
+  }
+
+  .btn-primary::after {
+    content: '';
+    @apply absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent;
+    transition: left 0.7s ease-in-out;
+  }
+
+  .btn-primary:hover::after {
+    @apply left-full;
   }
 
   .btn-secondary {
-    @apply btn border-2 border-brand-pink-500 text-brand-pink-500
-      hover:bg-brand-pink-500 hover:text-white focus:ring-brand-pink-500;
+    @apply btn border-2 border-brand-pink-200 text-brand-pink-700 hover:bg-brand-pink-50 hover:border-brand-pink-300 focus:ring-brand-pink-200;
   }
 
   .input {
-    @apply w-full px-4 py-2 rounded-lg border border-brand-pink-200
-      focus:border-brand-pink-500 focus:ring-2 focus:ring-brand-pink-200
-      outline-none transition-colors duration-300;
+    @apply w-full px-5 py-3 rounded-xl border border-brand-pink-100 focus:border-brand-pink-400 focus:ring-4 focus:ring-brand-pink-50 outline-none transition-all duration-300 bg-white/50 backdrop-blur-sm;
   }
 
   .card {
-    @apply bg-white rounded-2xl shadow-lg p-8 transition-all duration-300
-      hover:shadow-xl transform hover:-translate-y-1;
-  }
-
-  .section {
-    @apply py-24;
-  }
-
-  .gradient-fade {
-    @apply bg-gradient-fade from-brand-cream-100 via-brand-cream-50 to-white;
-  }
-
-  .font-bayon {
-    font-family: 'Bayon', sans-serif;
-  }
-
-  .font-playfair {
-    font-family: 'Playfair Display', serif;
-  }
-
-  .glass-card {
-    @apply bg-white/70 backdrop-blur-md border border-white/50 shadow-lg;
-  }
-
-  .magnetic-btn {
-    @apply transition-transform duration-300 ease-out;
-  }
-
-  .magnetic-btn:hover {
-    transform: translateY(-2px) scale(1.02);
+    @apply bg-white rounded-3xl shadow-premium p-8 transition-all duration-500 hover:shadow-premium-hover border border-brand-pink-50/50;
   }
 
   .premium-card {
-    @apply rounded-2xl border backdrop-blur-md shadow-lg;
-    background: rgba(255, 255, 255, 0.78);
-    border-color: rgba(255, 255, 255, 0.6);
+    @apply rounded-[2rem] border backdrop-blur-xl shadow-premium;
+    background: rgba(255, 255, 255, 0.75);
+    border-color: rgba(255, 255, 255, 0.8);
   }
 
   .premium-card-soft {
-    @apply rounded-2xl border shadow-md;
+    @apply rounded-3xl border shadow-sm transition-all duration-300;
     background: rgba(255, 255, 255, 0.6);
-    border-color: rgba(255, 255, 255, 0.52);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .premium-card-soft:hover {
+    @apply shadow-premium border-brand-pink-100/50 bg-white/80;
   }
 
   .premium-panel {
-    @apply rounded-3xl border backdrop-blur-md shadow-xl;
-    background: rgba(255, 255, 255, 0.84);
-    border-color: rgba(255, 255, 255, 0.72);
+    @apply rounded-[2.5rem] border backdrop-blur-2xl shadow-premium;
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(255, 255, 255, 0.9);
+  }
+
+  .gradient-fade {
+    @apply bg-gradient-fade from-brand-cream-50 via-white to-brand-pink-50/30;
   }
 }
 
@@ -217,17 +209,18 @@
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.contact-surface-bg {
-  background: linear-gradient(to bottom, rgba(255, 246, 248, 0.18), rgba(255, 248, 251, 0.1), rgba(255, 241, 245, 0.18));
+.theme-dark .hero-bg-logo {
+  opacity: 0.05 !important;
+  filter: brightness(0.6) contrast(1.2);
 }
+
+/* removed contact-surface-bg */
 
 .contact-card-overlay {
   background: linear-gradient(to bottom right, rgba(251, 207, 232, 0.65), rgba(254, 242, 242, 0.55));
 }
 
-.theme-dark .contact-surface-bg {
-  background: linear-gradient(to bottom, rgba(10, 17, 29, 0.35), rgba(16, 24, 41, 0.2), rgba(13, 21, 36, 0.35)) !important;
-}
+/* removed dark contact-surface-bg */
 
 .theme-dark .contact-card-overlay {
   background: linear-gradient(to bottom right, rgba(30, 41, 59, 0.66), rgba(168, 85, 247, 0.18)) !important;
@@ -237,38 +230,9 @@
   position: relative;
 }
 
-.seamless-section::before,
-.seamless-section::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 52px;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.seamless-section::before {
-  top: 0;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
-}
-
-.seamless-section::after {
-  bottom: 0;
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
-}
-
-.theme-dark .seamless-section::before {
-  background: linear-gradient(to bottom, rgba(10, 14, 23, 0.7), rgba(10, 14, 23, 0));
-}
-
-.theme-dark .seamless-section::after {
-  background: linear-gradient(to top, rgba(10, 14, 23, 0.7), rgba(10, 14, 23, 0));
-}
-
 @layer utilities {
   .text-shadow {
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .text-gradient {

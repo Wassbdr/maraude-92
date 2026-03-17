@@ -24,49 +24,49 @@ const Donate = () => {
   };
 
   return (
-    <section className="py-16 donate-surface">
+    <section className="relative py-24 bg-transparent overflow-hidden">
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={containerVariants}
-        className="container mx-auto px-4"
+        className="container mx-auto px-4 relative"
       >
-        <motion.div variants={itemVariants} className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-brand-pink-700 mb-4">
+        <motion.div variants={itemVariants} className="text-center mb-16">
+          <h2 className="text-6xl font-bayon text-transparent bg-clip-text bg-gradient-to-r from-brand-pink-700 to-brand-pink-500 mb-6 uppercase tracking-tight">
             Faire un Don
           </h2>
-          <p className="text-brand-pink-600 max-w-2xl mx-auto">
-            Votre don nous permet de continuer à lutter contre la précarité alimentaire.
+          <p className="text-xl text-brand-pink-900/60 max-w-2xl mx-auto font-medium leading-relaxed">
+            Votre générosité est le moteur de nos actions. Chaque don, petit ou grand, nous aide à semer la joie.
           </p>
         </motion.div>
 
         <motion.div
           variants={itemVariants}
-          className="max-w-md mx-auto premium-card p-8 text-center"
+          className="max-w-2xl mx-auto premium-card-soft p-12 text-center group border-none"
         >
-          <GiftIcon className="h-16 w-16 text-brand-pink-500 mx-auto mb-6" />
-          <h3 className="text-2xl font-semibold text-brand-pink-700 mb-4">
-            Faire un don via HelloAsso
+          <div className="inline-flex p-6 rounded-full bg-brand-pink-50 mb-8 transform group-hover:scale-110 transition-transform duration-500">
+            <GiftIcon className="h-20 w-20 text-brand-pink-500" />
+          </div>
+          <h3 className="text-3xl font-bayon text-brand-pink-700 mb-6 uppercase tracking-wide">
+            Don Sécurisé via HelloAsso
           </h3>
-          <p className="text-brand-pink-600 mb-8">
-            Cliquez sur le bouton ci-dessous pour faire un don sécurisé via HelloAsso
+          <p className="text-lg text-brand-pink-900/60 mb-10 font-medium leading-relaxed">
+            Soutenez Nous'Rire en effectuant un don simple, rapide et entièrement sécurisé sur la plateforme de référence HelloAsso.
           </p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-8"
-          >
+          <div className="flex justify-center">
             <a
               href="https://www.helloasso.com/associations/nous-rire"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 transition-colors duration-200"
+              className="btn-primary px-10 py-4 text-xl tracking-wide uppercase font-bayon"
             >
-              Faire un don via HelloAsso
+              Je fais un don
             </a>
-          </motion.div>
+          </div>
+          <p className="mt-8 text-sm text-brand-pink-400 font-bold uppercase tracking-widest">
+            Don déductible de vos impôts
+          </p>
         </motion.div>
       </motion.div>
     </section>

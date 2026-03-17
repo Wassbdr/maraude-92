@@ -50,7 +50,7 @@ const Actions = () => {
     <section className="relative overflow-hidden">
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-fade from-brand-cream-100 via-brand-cream-50 to-white" />
-      
+
       <div className="relative py-24">
         <motion.div
           initial="hidden"
@@ -59,41 +59,34 @@ const Actions = () => {
           variants={containerVariants}
           className="container mx-auto px-4"
         >
-          <motion.h2 
+          <motion.div
             variants={itemVariants}
-            className="text-4xl md:text-5xl font-bold text-brand-pink-600 text-center mb-8"
+            className="text-center mb-20"
           >
-            Nos Actions
-          </motion.h2>
-
-          <motion.p
-            variants={itemVariants}
-            className="text-xl text-brand-pink-700/80 text-center mb-16 max-w-3xl mx-auto"
-          >
-            Découvrez comment nous agissons concrètement pour lutter contre la précarité alimentaire
-          </motion.p>
+            <h2 className="text-6xl font-bayon text-transparent bg-clip-text bg-gradient-to-r from-brand-pink-700 to-brand-pink-500 mb-6 uppercase tracking-tight">
+              Nos Actions
+            </h2>
+            <p className="text-xl text-brand-pink-900/60 max-w-2xl mx-auto font-medium leading-relaxed">
+              Découvrez comment nous agissons concrètement chaque jour pour lutter contre la précarité alimentaire et semer l'espoir.
+            </p>
+          </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {actions.map((action, index) => (
               <motion.div
                 key={action.title}
                 variants={itemVariants}
-                className="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl 
-                  transform hover:-translate-y-1 transition-all duration-300"
+                className="premium-card-soft group border-none"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-pink-50 to-brand-cream-50 
-                  rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                <div className="relative p-8 flex items-start space-x-6">
-                  <div className="text-brand-pink-500 group-hover:text-brand-pink-600 
-                    transform group-hover:scale-110 transition-all duration-300">
+                <div className="p-10 flex items-start gap-8">
+                  <div className="text-brand-pink-500 group-hover:scale-110 transition-transform duration-500 bg-brand-pink-50 p-4 rounded-3xl">
                     {action.icon}
                   </div>
                   <div>
-                    <h3 className="text-2xl font-semibold text-brand-pink-700 mb-4">
+                    <h3 className="text-2xl font-bayon text-brand-pink-700 mb-4 uppercase tracking-wide group-hover:text-brand-pink-500 transition-colors">
                       {action.title}
                     </h3>
-                    <p className="text-lg text-brand-pink-700/80">
+                    <p className="text-lg text-brand-pink-900/60 font-medium leading-relaxed">
                       {action.description}
                     </p>
                   </div>
@@ -104,25 +97,21 @@ const Actions = () => {
 
           <motion.div
             variants={itemVariants}
-            className="mt-16 text-center"
+            className="mt-24 text-center"
           >
-            <p className="text-2xl text-brand-pink-700 mb-8">
-              Vous souhaitez nous aider dans nos actions ?
+            <p className="text-3xl font-bayon text-brand-pink-700 mb-10 uppercase tracking-wide">
+              Prêt à agir avec nous ?
             </p>
-            <div className="flex justify-center space-x-6">
+            <div className="flex flex-wrap justify-center gap-6">
               <a
                 href="#benevole"
-                className="bg-brand-pink-500 hover:bg-brand-pink-600 text-white 
-                  py-3 px-8 rounded-full font-medium transition-colors duration-300
-                  transform hover:scale-105 active:scale-95"
+                className="btn-primary"
               >
                 Devenir Bénévole
               </a>
               <a
                 href="#don"
-                className="bg-brand-cream text-brand-pink-dark border-2 border-brand-pink 
-                  hover:bg-brand-pink hover:text-white py-3 px-8 rounded-full font-medium 
-                  transition-colors duration-300 transform hover:scale-105 active:scale-95"
+                className="btn-secondary"
               >
                 Faire un Don
               </a>

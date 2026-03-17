@@ -7,7 +7,7 @@ const Contact = () => {
       href: 'mailto:nousrire.conatct@gmail.com',
       icon: () => (
         <svg className="h-12 w-12" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M20,4H4C2.9,4,2,4.9,2,6v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.1,4,20,4z M20,8l-8,5L4,8V6l8,5l8-5V8z"/>
+          <path d="M20,4H4C2.9,4,2,4.9,2,6v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.1,4,20,4z M20,8l-8,5L4,8V6l8,5l8-5V8z" />
         </svg>
       )
     },
@@ -48,7 +48,7 @@ const Contact = () => {
       opacity: 1,
       y: 0,
       transition: {
-        type: "tween", 
+        type: "tween",
         ease: "easeOut",
         duration: 0.4,
       },
@@ -57,74 +57,67 @@ const Contact = () => {
 
   const iconVariants = {
     hidden: { opacity: 0, scale: 0.8 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       scale: 1,
-      transition: { 
-        type: "spring", 
-        stiffness: 260, 
+      transition: {
+        type: "spring",
+        stiffness: 260,
         damping: 20,
-        duration: 0.4 
-      } 
+        duration: 0.4
+      }
     }
   };
 
   return (
-    <section className="relative overflow-hidden contact-surface">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 contact-surface-bg" />
-      
-      <div className="relative py-24">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={containerVariants}
-          className="container mx-auto px-4"
+    <section className="relative py-24 bg-transparent border-none">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={containerVariants}
+        className="container mx-auto px-4"
+      >
+        <motion.h2
+          variants={itemVariants}
+          className="text-6xl font-bayon text-transparent bg-clip-text bg-gradient-to-r from-brand-pink-700 to-brand-pink-500 text-center mb-20 uppercase tracking-tight"
         >
-          <motion.h2 
-            variants={itemVariants}
-            className="text-4xl md:text-5xl font-bold text-brand-pink-600 text-center mb-16"
-          >
-            Contactez-nous
-          </motion.h2>
+          Contactez-nous
+        </motion.h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {socialLinks.map((social, index) => (
-              <motion.a
-                key={social.name}
-                variants={itemVariants}
-                href={social.href || social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group premium-card contact-card will-change-transform"
-                whileHover={{ 
-                  y: -5,
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                  transition: { type: "tween", ease: "easeOut", duration: 0.2 }
-                }}
-              >
-                <div className="absolute inset-0 contact-card-overlay 
-                  rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                
-                <div className="relative p-8 flex flex-col items-center space-y-4">
-                  <motion.div 
-                    variants={iconVariants}
-                    className="text-brand-pink-500 group-hover:text-brand-pink-600 will-change-transform"
-                    whileHover={{ scale: 1.1, transition: { type: "spring", stiffness: 300, damping: 10 } }}
-                  >
-                    {typeof social.icon === 'function' ? social.icon() : social.icon}
-                  </motion.div>
-                  <span className="text-xl font-semibold text-brand-pink-700 
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          {socialLinks.map((social, index) => (
+            <motion.a
+              key={social.name}
+              variants={itemVariants}
+              href={social.href || social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group premium-card transition-all duration-500 overflow-hidden border-none"
+              whileHover={{
+                y: -10,
+                transition: { duration: 0.5, ease: "easeOut" }
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-pink-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative p-8 flex flex-col items-center space-y-4">
+                <motion.div
+                  variants={iconVariants}
+                  className="text-brand-pink-500 group-hover:text-brand-pink-600 will-change-transform"
+                  whileHover={{ scale: 1.1, transition: { type: "spring", stiffness: 300, damping: 10 } }}
+                >
+                  {typeof social.icon === 'function' ? social.icon() : social.icon}
+                </motion.div>
+                <span className="text-xl font-semibold text-brand-pink-700 
                     group-hover:text-brand-pink-800 transition-colors duration-200">
-                    {social.name}
-                  </span>
-                </div>
-              </motion.a>
-            ))}
-          </div>
-        </motion.div>
-      </div>
+                  {social.name}
+                </span>
+              </div>
+            </motion.a>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 };

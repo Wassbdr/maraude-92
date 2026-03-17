@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { getNews } from '../services/firestoreService';
-import { NewsItem as NewsItemType } from '../types'; 
+import { NewsItem as NewsItemType } from '../types';
 import { OptimizedImage } from './OptimizedImage';
 
 const News = () => {
@@ -23,20 +23,20 @@ const News = () => {
         setLoading(false);
       }
     };
-    
+
     fetchNews();
   }, []);
 
   // Loading, error and empty states
   if (loading || error || !news.length) {
-    const message = loading 
-      ? "Chargement des actualités..." 
-      : error 
-        ? error 
+    const message = loading
+      ? "Chargement des actualités..."
+      : error
+        ? error
         : "Aucune actualité disponible pour le moment.";
-        
+
     const textColor = error ? "text-red-600" : "text-brand-pink-600";
-    
+
     return (
       <div className="relative py-24">
         <div className="relative text-center py-12">
@@ -78,18 +78,18 @@ const News = () => {
           initial="hidden"
           animate="visible"
           variants={headerVariants}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl text-brand-pink-700 mb-10 font-bold">
+          <h2 className="text-6xl font-bayon text-transparent bg-clip-text bg-gradient-to-r from-brand-pink-700 to-brand-pink-500 mb-6 uppercase tracking-tight">
             Dernières Actualités
           </h2>
-          <p className="text-xl text-brand-pink-600 max-w-3xl mx-auto">
-            Restez informé des dernières actions et initiatives de Nous'Rire
+          <p className="text-xl text-brand-pink-900/60 max-w-2xl mx-auto font-medium leading-relaxed">
+            Restez informé des dernières actions et initiatives qui font battre le cœur de Nous'Rire.
           </p>
         </motion.div>
 
         {/* News Cards */}
-        <motion.div 
+        <motion.div
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           initial="hidden"
           animate="visible"
@@ -99,13 +99,13 @@ const News = () => {
             <NewsCard key={item.id} item={item} />
           ))}
         </motion.div>
-        
+
         {/* Decorative elements */}
-        <motion.div 
-          className="hidden lg:block absolute top-24 -right-32 w-64 h-64 bg-brand-pink-100/20 rounded-full blur-3xl" 
-          animate={{ 
-            x: [0, -20, 0], 
-            y: [0, 15, 0] 
+        <motion.div
+          className="hidden lg:block absolute top-24 -right-32 w-64 h-64 bg-brand-pink-100/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, -20, 0],
+            y: [0, 15, 0]
           }}
           transition={{
             repeat: Infinity,
@@ -113,11 +113,11 @@ const News = () => {
             ease: "easeInOut"
           }}
         />
-        <motion.div 
-          className="hidden lg:block absolute -bottom-32 -left-32 w-64 h-64 bg-brand-pink-100/20 rounded-full blur-3xl" 
-          animate={{ 
-            x: [0, 20, 0], 
-            y: [0, -15, 0] 
+        <motion.div
+          className="hidden lg:block absolute -bottom-32 -left-32 w-64 h-64 bg-brand-pink-100/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, 20, 0],
+            y: [0, -15, 0]
           }}
           transition={{
             repeat: Infinity,
@@ -136,34 +136,36 @@ const NewsCard = ({ item }: { item: NewsItemType }) => {
     <motion.div
       variants={{
         hidden: { opacity: 0, y: 30 },
-        visible: { 
-          opacity: 1, 
+        visible: {
+          opacity: 1,
           y: 0,
-          transition: { 
+          transition: {
             duration: 0.5,
             ease: [0.215, 0.610, 0.355, 1.000]
           }
         }
       }}
-      whileHover={{ 
-        y: -8,
-        transition: { duration: 0.3 }
+      whileHover={{
+        y: -12,
+        transition: { duration: 0.5, ease: "easeOut" }
       }}
-      className="bg-white/50 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+      className="premium-card-soft group border-none overflow-hidden"
     >
       {item.image && (
         <LazyNewsImage src={item.image} alt={item.title} />
       )}
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-brand-pink-700 mb-2">
+      <div className="p-8">
+        <h3 className="text-2xl font-bayon text-brand-pink-700 mb-4 group-hover:text-brand-pink-500 transition-colors uppercase tracking-tight line-clamp-2">
           {item.title}
         </h3>
-        <p className="text-brand-pink-600 mb-4 line-clamp-3">
+        <p className="text-brand-pink-900/60 font-medium mb-6 line-clamp-3 leading-relaxed">
           {item.content}
         </p>
-        <p className="text-sm text-brand-pink-500">
-          {format(new Date(item.date), 'd MMMM yyyy', { locale: fr })}
-        </p>
+        <div className="flex items-center text-xs font-bold uppercase tracking-widest text-brand-pink-400">
+          <span className="bg-brand-pink-50 px-3 py-1 rounded-full border border-brand-pink-100/50">
+            {format(new Date(item.date), 'd MMMM yyyy', { locale: fr })}
+          </span>
+        </div>
       </div>
     </motion.div>
   );
@@ -175,7 +177,7 @@ function LazyNewsImage({ src, alt }: { src: string; alt: string }) {
   const [isVisible, setIsVisible] = useState(false);
   const [hasError, setHasError] = useState(false);
   const imgRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -186,14 +188,14 @@ function LazyNewsImage({ src, alt }: { src: string; alt: string }) {
       },
       { threshold: 0.1 }
     );
-    
+
     // Store the current ref value
     const currentRef = imgRef.current;
-    
+
     if (currentRef) {
       observer.observe(currentRef);
     }
-    
+
     return () => {
       // No need to check imgRef.current here
       // The disconnect() method clears all observations
@@ -204,18 +206,18 @@ function LazyNewsImage({ src, alt }: { src: string; alt: string }) {
   return (
     <div ref={imgRef} className="relative h-48 w-full">
       {isVisible && !hasError ? (
-        <OptimizedImage 
+        <OptimizedImage
           src={src}
           imageName={src.split('/').pop() || ''}
           alt={alt}
-          width={400} 
+          width={400}
           height={300}
           className={`w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
         />
       ) : isVisible && hasError ? (
-        <OptimizedImage 
+        <OptimizedImage
           src="/images/news-placeholder.webp"
           imageName="news-placeholder.webp"
           alt={alt}

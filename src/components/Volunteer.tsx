@@ -263,68 +263,65 @@ const Volunteer = () => {
       <motion.div key="step-2" initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}>
         <h3 className="text-2xl font-bold text-brand-pink-700 mb-6">Disponibilités & compétences</h3>
 
-          <div className="mb-6">
-            <p className="text-brand-pink-700 font-medium mb-3">Quand êtes-vous disponible ?</p>
-            <div className="flex flex-wrap gap-2">
-              {availabilityOptions.map(option => (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => toggleArrayValue('availability', option)}
-                  className={`px-4 py-2 rounded-full border transition-all duration-300 ${
-                    formData.availability.includes(option)
-                      ? 'bg-brand-pink-500 border-brand-pink-500 text-white'
-                      : 'bg-white border-brand-pink-200 text-brand-pink-700 hover:border-brand-pink-400'
+        <div className="mb-6">
+          <p className="text-brand-pink-700 font-medium mb-3">Quand êtes-vous disponible ?</p>
+          <div className="flex flex-wrap gap-2">
+            {availabilityOptions.map(option => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => toggleArrayValue('availability', option)}
+                className={`px-4 py-2 rounded-full border transition-all duration-300 ${formData.availability.includes(option)
+                  ? 'bg-brand-pink-500 border-brand-pink-500 text-white'
+                  : 'bg-white border-brand-pink-200 text-brand-pink-700 hover:border-brand-pink-400'
                   }`}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
+              >
+                {option}
+              </button>
+            ))}
           </div>
+        </div>
 
-          <div className="mb-6">
-            <p className="text-brand-pink-700 font-medium mb-3">Vos points forts (optionnel)</p>
-            <div className="flex flex-wrap gap-2">
-              {skillOptions.map(option => (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => toggleArrayValue('skills', option)}
-                  className={`px-4 py-2 rounded-full border transition-all duration-300 ${
-                    formData.skills.includes(option)
-                      ? 'bg-brand-pink-100 border-brand-pink-300 text-brand-pink-700'
-                      : 'bg-white border-brand-pink-200 text-brand-pink-600 hover:border-brand-pink-300'
+        <div className="mb-6">
+          <p className="text-brand-pink-700 font-medium mb-3">Vos points forts (optionnel)</p>
+          <div className="flex flex-wrap gap-2">
+            {skillOptions.map(option => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => toggleArrayValue('skills', option)}
+                className={`px-4 py-2 rounded-full border transition-all duration-300 ${formData.skills.includes(option)
+                  ? 'bg-brand-pink-100 border-brand-pink-300 text-brand-pink-700'
+                  : 'bg-white border-brand-pink-200 text-brand-pink-600 hover:border-brand-pink-300'
                   }`}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
+              >
+                {option}
+              </button>
+            ))}
           </div>
+        </div>
 
-          <div>
-            <label htmlFor="motivation" className="block text-brand-pink-700 font-medium mb-2">
-              Motivation
-            </label>
-            <textarea
-              id="motivation"
-              name="motivation"
-              value={formData.motivation}
-              onChange={handleChange}
-              rows={4}
-              className="input bg-white/90"
-              placeholder="Expliquez en quelques mots pourquoi vous souhaitez rejoindre Nous'Rire..."
-              required
-            />
-          </div>
+        <div>
+          <label htmlFor="motivation" className="block text-brand-pink-700 font-medium mb-2">
+            Motivation
+          </label>
+          <textarea
+            id="motivation"
+            name="motivation"
+            value={formData.motivation}
+            onChange={handleChange}
+            rows={4}
+            className="input bg-white/90"
+            placeholder="Expliquez en quelques mots pourquoi vous souhaitez rejoindre Nous'Rire..."
+            required
+          />
+        </div>
       </motion.div>
     );
   };
 
   return (
-    <section id="benevole" className="relative overflow-hidden py-24 bg-transparent">
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_20%,rgba(253,164,175,0.16),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(192,132,252,0.14),transparent_40%)]" />
+    <section id="benevole" className="relative py-24 bg-transparent">
 
       <motion.div
         initial="hidden"
@@ -333,11 +330,15 @@ const Volunteer = () => {
         variants={containerVariants}
         className="container mx-auto px-4 relative"
       >
-        <motion.div variants={itemVariants} className="text-center max-w-3xl mx-auto mb-14">
-          <HeartIcon className="h-14 w-14 text-brand-pink-500 mx-auto mb-4" />
-          <h2 className="text-4xl md:text-5xl font-bold text-brand-pink-700 mb-5">Recrutement Bénévoles</h2>
-          <p className="text-lg text-brand-pink-700/80">
-            Un parcours rapide, moderne et gratuit pour rejoindre notre équipe terrain.
+        <motion.div variants={itemVariants} className="text-center max-w-3xl mx-auto mb-20">
+          <div className="inline-flex p-4 rounded-3xl bg-brand-pink-50 mb-6">
+            <HeartIcon className="h-10 w-10 text-brand-pink-500" />
+          </div>
+          <h2 className="text-6xl font-bayon text-transparent bg-clip-text bg-gradient-to-r from-brand-pink-700 to-brand-pink-500 mb-6 uppercase tracking-tight">
+            Devenir Bénévole
+          </h2>
+          <p className="text-xl text-brand-pink-900/60 font-medium leading-relaxed">
+            Rejoignez notre aventure solidaire. Un processus simple et rapide pour commencer à agir à nos côtés.
           </p>
         </motion.div>
 
@@ -382,16 +383,16 @@ const Volunteer = () => {
               autoComplete="off"
             />
 
-            <div className="mb-7">
-              <div className="flex justify-between text-xs text-brand-pink-500 mb-2">
-                <span>Étape {step}/2</span>
-                <span>{Math.round(stepProgress)}%</span>
+            <div className="mb-10">
+              <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-brand-pink-500 mb-3">
+                <span>Étape {step} sur 2</span>
+                <span>{Math.round(stepProgress)}% complété</span>
               </div>
-              <div className="h-2 w-full bg-brand-pink-100 rounded-full overflow-hidden">
+              <div className="h-2.5 w-full bg-brand-pink-50 rounded-full overflow-hidden border border-brand-pink-100/50">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-brand-pink-400 to-brand-pink-600"
+                  className="h-full bg-gradient-to-r from-brand-pink-400 to-brand-pink-600 shadow-[0_0_10px_rgba(254,171,163,0.5)]"
                   animate={{ width: `${stepProgress}%` }}
-                  transition={{ duration: 0.4 }}
+                  transition={{ duration: 0.6, ease: "circOut" }}
                 />
               </div>
             </div>
@@ -405,9 +406,9 @@ const Volunteer = () => {
                   onClick={prevStep}
                   onMouseMove={handleMagneticMove}
                   onMouseLeave={handleMagneticLeave}
-                  className="magnetic-btn inline-flex items-center gap-2 px-5 py-3 rounded-full border border-brand-pink-200 text-brand-pink-700 hover:bg-brand-pink-50 transition-all duration-300"
+                  className="btn-secondary"
                 >
-                  <ArrowLongLeftIcon className="h-5 w-5" /> Retour
+                  <ArrowLongLeftIcon className="h-5 w-5 mr-2" /> Retour
                 </button>
               )}
 
@@ -417,9 +418,9 @@ const Volunteer = () => {
                   onClick={nextStep}
                   onMouseMove={handleMagneticMove}
                   onMouseLeave={handleMagneticLeave}
-                  className="magnetic-btn inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-pink-500 text-white hover:bg-brand-pink-600 transition-all duration-300 ml-auto"
+                  className="btn-primary ml-auto"
                 >
-                  Continuer <ArrowLongRightIcon className="h-5 w-5" />
+                  Continuer <ArrowLongRightIcon className="h-5 w-5 ml-2" />
                 </button>
               ) : (
                 <button
@@ -427,7 +428,7 @@ const Volunteer = () => {
                   disabled={isSubmitting}
                   onMouseMove={handleMagneticMove}
                   onMouseLeave={handleMagneticLeave}
-                  className="magnetic-btn inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-pink-500 text-white hover:bg-brand-pink-600 transition-all duration-300 ml-auto disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="btn-primary ml-auto disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>

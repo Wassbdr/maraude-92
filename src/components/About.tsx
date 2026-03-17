@@ -8,7 +8,6 @@ interface CardItemProps {
   icon: ReactNode;
   title: string;
   description: string;
-  delay: number;
 }
 
 const About = () => {
@@ -16,63 +15,72 @@ const About = () => {
     <div className="relative py-24 bg-transparent">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <motion.div 
-          className="text-center mb-16"
+        <motion.div
+          className="text-center mb-20"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ 
-            duration: 0.8, 
+          transition={{
+            duration: 0.8,
             delay: 0.1,
-            type: "spring",
-            stiffness: 100,
-            damping: 20,
-            ease: [0.215, 0.610, 0.355, 1.000] // Cubic bezier for smooth entrance
+            ease: "easeOut"
           }}
         >
-          <h2 className="font-bayon text-4xl md:text-5xl text-brand-pink-700 mb-4">
+          <h2 className="font-bayon text-6xl text-transparent bg-clip-text bg-gradient-to-r from-brand-pink-700 to-brand-pink-500 mb-6 uppercase tracking-tight">
             Notre Mission
           </h2>
-          <p className="text-xl text-brand-pink-600 max-w-3xl mx-auto">
-            Une association dédiée à la solidarité et au partage, œuvrant pour un monde plus juste et plus humain
+          <p className="text-xl text-brand-pink-900/60 max-w-2xl mx-auto font-medium">
+            Une association dédiée à la solidarité et au partage, œuvrant chaque jour pour un monde plus juste et plus humain.
           </p>
         </motion.div>
 
         {/* Cards Section */}
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          className="grid gap-12 md:grid-cols-2 lg:grid-cols-3"
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.2
+              }
+            }
+          }}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+        >
           {/* Mission Card */}
-          <CardItem 
+          <CardItem
             icon={<HeartIcon className="h-8 w-8" />}
             title="Notre Mission"
             description="Nous nous engageons à lutter contre la précarité alimentaire en distribuant des repas aux personnes dans le besoin, tout en créant des moments de partage et de convivialité."
-            delay={0.2}
           />
 
           {/* Vision Card */}
-          <CardItem 
+          <CardItem
             icon={<LightBulbIcon className="h-8 w-8" />}
             title="Notre Vision"
             description="Créer un monde où personne ne doit avoir faim, où la solidarité et le partage sont des valeurs fondamentales qui rassemblent notre communauté."
-            delay={0.4}
           />
 
           {/* Values Card */}
-          <CardItem 
+          <CardItem
             icon={<SparklesIcon className="h-8 w-8" />}
             title="Nos Valeurs"
             description="Solidarité, respect, engagement et partage sont les piliers de notre action quotidienne, guidant chaque initiative que nous entreprenons."
-            delay={0.6}
           />
-        </div>
+        </motion.div>
 
         {/* Story Section */}
-        <motion.div 
+        <motion.div
           className="mt-20"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ 
-            duration: 0.8, 
+          transition={{
+            duration: 0.8,
             type: "tween",
             stiffness: 100,
             damping: 20,
@@ -92,16 +100,16 @@ const About = () => {
                   des moments de partage et de convivialité.
                 </p>
               </div>
-              
+
               <div className="rounded-xl overflow-hidden shadow-md">
                 <div className="aspect-w-4 aspect-h-3">
-                  <OptimizedImage 
+                  <OptimizedImage
                     src=""
                     imageName="benevoles_optimized.webp"
                     alt="Description"
                     width={800}
                     height={600}
-                    className="w-full h-full object-cover" 
+                    className="w-full h-full object-cover"
                   />
                 </div>
               </div>
@@ -114,51 +122,54 @@ const About = () => {
 };
 
 // Card component to avoid repetition
-const CardItem = ({ icon, title, description, delay }: CardItemProps) => {
+const CardItem = ({ icon, title, description }: CardItemProps) => {
   const prefersReducedMotion = useReducedMotion();
 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1]
+      }
+    }
+  };
+
+  const iconVariants = {
+    hidden: { scale: 0.9, rotate: -8, opacity: 0 },
+    show: {
+      scale: 1,
+      rotate: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1],
+        delay: 0.2 // Small extra delay for the icon relative to the card
+      }
+    }
+  };
+
   return (
-    <motion.div 
-      className="premium-card p-8 hover:shadow-xl transition-all duration-300"
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px', amount: 0.25 }}
-      transition={{ duration: 0.45, delay, ease: [0.22, 1, 0.36, 1] }}
+    <motion.div
+      className="premium-card p-8 group shadow-sm hover:shadow-xl transition-shadow duration-300"
+      variants={cardVariants}
       style={{ willChange: 'transform, opacity' }}
     >
-      <motion.div 
-        className="flex items-center justify-center h-16 w-16 rounded-full bg-brand-pink-500 text-white mx-auto mb-6 transform hover:scale-110 transition-transform duration-300"
-        initial={prefersReducedMotion ? false : { scale: 0.9, rotate: -8, opacity: 0 }}
-        whileInView={prefersReducedMotion ? { opacity: 1 } : { scale: 1, rotate: 0, opacity: 1 }}
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ 
-          duration: prefersReducedMotion ? 0.2 : 0.35,
-          delay: delay + 0.2,
-          type: 'tween',
-          ease: [0.22, 1, 0.36, 1]
-        }}
+      <motion.div
+        className="flex items-center justify-center h-16 w-16 rounded-full bg-brand-pink-500 text-white mx-auto mb-6 transform group-hover:scale-110 transition-transform duration-300"
+        variants={prefersReducedMotion ? {} : iconVariants}
         style={{ willChange: 'transform, opacity', transform: 'translateZ(0)' }}
       >
         {icon}
       </motion.div>
-      <motion.h3 
-        className="text-2xl font-bayon text-brand-pink-700 text-center mb-4"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: delay + 0.1 }}
-      >
+      <h3 className="text-2xl font-bayon text-brand-pink-700 text-center mb-4">
         {title}
-      </motion.h3>
-      <motion.p 
-        className="text-brand-pink-600 text-center text-lg leading-relaxed"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: delay + 0.2 }}
-      >
+      </h3>
+      <p className="text-brand-pink-600 text-center text-lg leading-relaxed">
         {description}
-      </motion.p>
+      </p>
     </motion.div>
   );
 };
