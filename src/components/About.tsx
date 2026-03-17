@@ -1,5 +1,5 @@
 import { HeartIcon, LightBulbIcon, SparklesIcon } from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ReactNode } from 'react';
 import { OptimizedImage } from './OptimizedImage';
 
@@ -115,24 +115,29 @@ const About = () => {
 
 // Card component to avoid repetition
 const CardItem = ({ icon, title, description, delay }: CardItemProps) => {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <motion.div 
       className="premium-card p-8 hover:shadow-xl transition-all duration-300"
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px', amount: 0.25 }}
+      transition={{ duration: 0.45, delay, ease: [0.22, 1, 0.36, 1] }}
+      style={{ willChange: 'transform, opacity' }}
     >
       <motion.div 
         className="flex items-center justify-center h-16 w-16 rounded-full bg-brand-pink-500 text-white mx-auto mb-6 transform hover:scale-110 transition-transform duration-300"
-        initial={{ scale: 0, rotate: -45 }}
-        whileInView={{ scale: 1, rotate: 0 }}
-        viewport={{ once: true }}
+        initial={prefersReducedMotion ? false : { scale: 0.9, rotate: -8, opacity: 0 }}
+        whileInView={prefersReducedMotion ? { opacity: 1 } : { scale: 1, rotate: 0, opacity: 1 }}
+        viewport={{ once: true, amount: 0.4 }}
         transition={{ 
-          duration: 0.5, 
-          delay: delay + 0.3,
-          type: "spring",
-          stiffness: 260,
-          damping: 20
+          duration: prefersReducedMotion ? 0.2 : 0.35,
+          delay: delay + 0.2,
+          type: 'tween',
+          ease: [0.22, 1, 0.36, 1]
         }}
+        style={{ willChange: 'transform, opacity', transform: 'translateZ(0)' }}
       >
         {icon}
       </motion.div>

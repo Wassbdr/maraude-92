@@ -107,8 +107,8 @@ const AppContent = () => {
                   <motion.section
                     id="accueil"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-40px' }}
                     transition={{ duration: 0.5, ease: 'easeOut' }}
                   >
@@ -117,8 +117,8 @@ const AppContent = () => {
                   <motion.section
                     id="mission"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-40px' }}
                     transition={{ duration: 0.5, delay: 0.05, ease: 'easeOut' }}
                   >
@@ -127,8 +127,8 @@ const AppContent = () => {
                   <motion.section
                     id="actions"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-40px' }}
                     transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
@@ -139,8 +139,8 @@ const AppContent = () => {
                   <motion.section
                     id="calendrier"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-40px' }}
                     transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
@@ -149,8 +149,8 @@ const AppContent = () => {
                   <motion.section
                     id="benevole"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-40px' }}
                     transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
@@ -159,8 +159,8 @@ const AppContent = () => {
                   <motion.section
                     id="don"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-40px' }}
                     transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
@@ -169,8 +169,8 @@ const AppContent = () => {
                   <motion.section
                     id="contact"
                     className="seamless-section"
-                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-40px' }}
                     transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >

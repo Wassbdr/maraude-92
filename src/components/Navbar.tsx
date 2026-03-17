@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 
 interface NavbarProps {
@@ -13,31 +13,63 @@ const Navbar = ({ isDarkMode, onToggleTheme }: NavbarProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('accueil');
   const [scrollProgress, setScrollProgress] = useState(0);
+  const sectionsRef = useRef<Array<{ id: string; top: number; height: number }>>([]);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-      
-      // Detect active section based on scroll position
-      const sections = document.querySelectorAll('section[id]');
-      const scrollY = window.pageYOffset;
-      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(documentHeight > 0 ? Math.min(scrollY / documentHeight, 1) : 0);
-      
-      sections.forEach(section => {
-        const sectionElement = section as HTMLElement;
-        const sectionHeight = sectionElement.offsetHeight;
-        const sectionTop = sectionElement.offsetTop - 100;
-        const sectionId = section.getAttribute('id');
-        
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-          setActiveSection(sectionId || 'accueil');
-        }
+    const measureSections = () => {
+      sectionsRef.current = Array.from(document.querySelectorAll('section[id]')).map(section => {
+        const element = section as HTMLElement;
+        return {
+          id: section.getAttribute('id') || 'accueil',
+          top: element.offsetTop,
+          height: element.offsetHeight,
+        };
       });
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const updateFromScroll = () => {
+      const scrollY = window.scrollY;
+      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const nextProgress = documentHeight > 0 ? Math.min(scrollY / documentHeight, 1) : 0;
+
+      setScrolled(prev => (prev !== (scrollY > 20) ? scrollY > 20 : prev));
+      setScrollProgress(prev => (Math.abs(prev - nextProgress) > 0.002 ? nextProgress : prev));
+
+      let nextActive = 'accueil';
+      for (const section of sectionsRef.current) {
+        const sectionTop = section.top - 100;
+        if (scrollY > sectionTop && scrollY <= sectionTop + section.height) {
+          nextActive = section.id;
+          break;
+        }
+      }
+      setActiveSection(prev => (prev !== nextActive ? nextActive : prev));
+
+      rafRef.current = null;
+    };
+
+    const handleScroll = () => {
+      if (rafRef.current === null) {
+        rafRef.current = window.requestAnimationFrame(updateFromScroll);
+      }
+    };
+
+    measureSections();
+    updateFromScroll();
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', measureSections);
+    window.addEventListener('orientationchange', measureSections);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', measureSections);
+      window.removeEventListener('orientationchange', measureSections);
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+    };
   }, []);
 
   // Smooth scroll to section and close mobile menu
@@ -180,8 +212,8 @@ const Navbar = ({ isDarkMode, onToggleTheme }: NavbarProps) => {
       </div>
       <div className="h-[2px] w-full bg-transparent origin-left overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-brand-pink-400 via-brand-pink-500 to-brand-pink-700 transition-transform duration-200"
-          style={{ transform: `scaleX(${scrollProgress})`, transformOrigin: 'left' }}
+          className="h-full bg-gradient-to-r from-brand-pink-400 via-brand-pink-500 to-brand-pink-700"
+          style={{ transform: `translateZ(0) scaleX(${scrollProgress})`, transformOrigin: 'left', willChange: 'transform' }}
         />
       </div>
     </nav>
