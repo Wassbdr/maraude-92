@@ -12,7 +12,8 @@ import {
   CheckCircleIcon,
   PaperAirplaneIcon,
   ArrowLongLeftIcon,
-  ArrowLongRightIcon
+  ArrowLongRightIcon,
+  ExclamationCircleIcon
 } from '@heroicons/react/24/outline';
 import { useCallback, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -39,6 +40,12 @@ const Volunteer = () => {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
   const [formStartedAt] = useState(() => Date.now());
+  const [fieldErrors, setFieldErrors] = useState<{
+    name?: string;
+    email?: string;
+    phone?: string;
+    age?: string;
+  }>({});
 
   const [formData, setFormData] = useState({
     name: '',
@@ -91,6 +98,9 @@ const Volunteer = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    if (name in fieldErrors) {
+      setFieldErrors(prev => ({ ...prev, [name]: undefined }));
+    }
   };
 
   const toggleArrayValue = (field: 'availability' | 'skills', value: string) => {
@@ -102,9 +112,45 @@ const Volunteer = () => {
     }));
   };
 
+  const validateStep1 = (): boolean => {
+    const errors: typeof fieldErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^(\+33|0)[1-9](\d{2}){4}$/;
+
+    if (!formData.name.trim()) {
+      errors.name = 'Le nom complet est obligatoire.';
+    }
+
+    if (!formData.email.trim()) {
+      errors.email = "L'adresse email est obligatoire.";
+    } else if (!emailRegex.test(formData.email.trim())) {
+      errors.email = "L'adresse email n'est pas valide.";
+    }
+
+    if (!formData.phone.trim()) {
+      errors.phone = 'Le numéro de téléphone est obligatoire.';
+    } else if (!phoneRegex.test(formData.phone.trim().replace(/\s/g, ''))) {
+      errors.phone = "Le numéro de téléphone n'est pas valide (ex: 06 12 34 56 78).";
+    }
+
+    const ageValue = Number(formData.age);
+    if (!formData.age) {
+      errors.age = "L'âge est obligatoire.";
+    } else if (Number.isNaN(ageValue) || ageValue < 16 || ageValue > 100) {
+      errors.age = "L'âge doit être compris entre 16 et 100 ans.";
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const nextStep = () => {
+    if (step === 1 && !validateStep1()) return;
     setStep(prev => Math.min(prev + 1, 2));
   };
+
+  const inputClassName = (field: keyof typeof fieldErrors) =>
+    `input bg-white/90${fieldErrors[field] ? ' border-red-400 focus:ring-red-300' : ''}`;
 
   const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
@@ -124,6 +170,7 @@ const Volunteer = () => {
     setStep(1);
     setSubmitStatus('idle');
     setError(null);
+    setFieldErrors({});
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -146,8 +193,8 @@ const Volunteer = () => {
 
     const ageValue = Number(formData.age);
     if (!formData.age || Number.isNaN(ageValue) || ageValue < 16 || ageValue > 100) {
-      setSubmitStatus('error');
-      setError('Veuillez indiquer un âge valide (entre 16 et 100 ans).');
+      setFieldErrors(prev => ({ ...prev, age: "L'âge doit être compris entre 16 et 100 ans." }));
+      setStep(1);
       return;
     }
 
@@ -206,7 +253,7 @@ const Volunteer = () => {
           <div className="grid md:grid-cols-2 gap-5">
             <div>
               <label htmlFor="name" className="block text-brand-pink-700 font-medium mb-2 flex items-center">
-                <UserIcon className="h-4 w-4 mr-2" /> Nom complet
+                <UserIcon className="h-4 w-4 mr-2" /> Nom complet <span className="text-red-500 ml-1">*</span>
               </label>
               <input
                 id="name"
@@ -214,14 +261,20 @@ const Volunteer = () => {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Ex: Fatima Benali"
-                className="input bg-white/90"
-                required
+                className={inputClassName('name')}
+                aria-invalid={!!fieldErrors.name}
+                aria-describedby={fieldErrors.name ? 'name-error' : undefined}
               />
+              {fieldErrors.name && (
+                <p id="name-error" className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                  <ExclamationCircleIcon className="h-4 w-4 flex-shrink-0" /> {fieldErrors.name}
+                </p>
+              )}
             </div>
 
             <div>
               <label htmlFor="email" className="block text-brand-pink-700 font-medium mb-2 flex items-center">
-                <EnvelopeIcon className="h-4 w-4 mr-2" /> Email
+                <EnvelopeIcon className="h-4 w-4 mr-2" /> Email <span className="text-red-500 ml-1">*</span>
               </label>
               <input
                 id="email"
@@ -230,14 +283,20 @@ const Volunteer = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="votre.email@exemple.com"
-                className="input bg-white/90"
-                required
+                className={inputClassName('email')}
+                aria-invalid={!!fieldErrors.email}
+                aria-describedby={fieldErrors.email ? 'email-error' : undefined}
               />
+              {fieldErrors.email && (
+                <p id="email-error" className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                  <ExclamationCircleIcon className="h-4 w-4 flex-shrink-0" /> {fieldErrors.email}
+                </p>
+              )}
             </div>
 
             <div>
               <label htmlFor="phone" className="block text-brand-pink-700 font-medium mb-2 flex items-center">
-                <PhoneIcon className="h-4 w-4 mr-2" /> Téléphone
+                <PhoneIcon className="h-4 w-4 mr-2" /> Téléphone <span className="text-red-500 ml-1">*</span>
               </label>
               <input
                 id="phone"
@@ -245,14 +304,20 @@ const Volunteer = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="06 12 34 56 78"
-                className="input bg-white/90"
-                required
+                className={inputClassName('phone')}
+                aria-invalid={!!fieldErrors.phone}
+                aria-describedby={fieldErrors.phone ? 'phone-error' : undefined}
               />
+              {fieldErrors.phone && (
+                <p id="phone-error" className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                  <ExclamationCircleIcon className="h-4 w-4 flex-shrink-0" /> {fieldErrors.phone}
+                </p>
+              )}
             </div>
 
             <div>
               <label htmlFor="age" className="block text-brand-pink-700 font-medium mb-2 flex items-center">
-                <UserIcon className="h-4 w-4 mr-2" /> Âge
+                <UserIcon className="h-4 w-4 mr-2" /> Âge <span className="text-red-500 ml-1">*</span>
               </label>
               <input
                 id="age"
@@ -263,9 +328,15 @@ const Volunteer = () => {
                 value={formData.age}
                 onChange={handleChange}
                 placeholder="Ex: 25"
-                className="input bg-white/90"
-                required
+                className={inputClassName('age')}
+                aria-invalid={!!fieldErrors.age}
+                aria-describedby={fieldErrors.age ? 'age-error' : undefined}
               />
+              {fieldErrors.age && (
+                <p id="age-error" className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                  <ExclamationCircleIcon className="h-4 w-4 flex-shrink-0" /> {fieldErrors.age}
+                </p>
+              )}
             </div>
 
             <div>
@@ -279,7 +350,6 @@ const Volunteer = () => {
                 onChange={handleChange}
                 placeholder="Ex: Nanterre"
                 className="input bg-white/90"
-                required
               />
             </div>
           </div>
