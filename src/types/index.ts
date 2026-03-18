@@ -35,6 +35,7 @@ export interface Volunteer {
   email: string;
   phone: string;
   message: string;
+  age?: number;
   city?: string;
   availability?: string[];
   skills?: string[];
@@ -47,6 +48,7 @@ export interface VolunteerApplicationData {
   name: string;
   email: string;
   phone: string;
+  age: number;
   city: string;
   availability: string[];
   skills: string[];

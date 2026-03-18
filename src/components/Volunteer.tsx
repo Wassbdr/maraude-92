@@ -44,6 +44,7 @@ const Volunteer = () => {
     name: '',
     email: '',
     phone: '',
+    age: '',
     city: '',
     availability: [] as string[],
     skills: [] as string[],
@@ -112,6 +113,7 @@ const Volunteer = () => {
       name: '',
       email: '',
       phone: '',
+      age: '',
       city: '',
       availability: [],
       skills: [],
@@ -142,6 +144,13 @@ const Volunteer = () => {
       return;
     }
 
+    const ageValue = Number(formData.age);
+    if (!formData.age || Number.isNaN(ageValue) || ageValue < 16 || ageValue > 100) {
+      setSubmitStatus('error');
+      setError('Veuillez indiquer un âge valide (entre 16 et 100 ans).');
+      return;
+    }
+
     const lastSubmitTime = localStorage.getItem('lastVolunteerSubmitTime');
     const cooldownPeriod = 24 * 60 * 60 * 1000;
     if (lastSubmitTime && Date.now() - Number.parseInt(lastSubmitTime, 10) < cooldownPeriod) {
@@ -157,6 +166,7 @@ const Volunteer = () => {
       name: DOMPurify.sanitize(formData.name.trim()),
       email: DOMPurify.sanitize(formData.email.trim().toLowerCase()),
       phone: DOMPurify.sanitize(formData.phone.trim()),
+      age: ageValue,
       city: DOMPurify.sanitize(formData.city.trim()),
       availability: formData.availability.map(item => DOMPurify.sanitize(item)),
       skills: formData.skills.map(item => DOMPurify.sanitize(item)),
@@ -235,6 +245,24 @@ const Volunteer = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="06 12 34 56 78"
+                className="input bg-white/90"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="age" className="block text-brand-pink-700 font-medium mb-2 flex items-center">
+                <UserIcon className="h-4 w-4 mr-2" /> Âge
+              </label>
+              <input
+                id="age"
+                name="age"
+                type="number"
+                min={16}
+                max={100}
+                value={formData.age}
+                onChange={handleChange}
+                placeholder="Ex: 25"
                 className="input bg-white/90"
                 required
               />
