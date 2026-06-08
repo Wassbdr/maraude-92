@@ -8,10 +8,10 @@ export const getImagePath = (imageName: string, firebaseUrl?: string): string =>
       'nousrire.webp',
       'nousrire_logo.svg',
       'nousrire_bg.webp',
-      'distribution_optimized.webp',
-      'action_optimized.webp',
-      'social_optimized.webp',
-      'benevoles_optimized.webp',
+      'distribution_optimized_v2.webp',
+      'action_optimized_v2.webp',
+      'social_optimized_v2.webp',
+      'benevoles_optimized_v2.webp',
       'placeholder.webp'
     ];
     
