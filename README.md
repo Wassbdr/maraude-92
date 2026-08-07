@@ -2,8 +2,10 @@
 
 ![Nous'Rire](/public/images/nousrire_logo.svg)
 
+> **Site associatif réel, déployé en production** à l'adresse [nousrire.org](https://nousrire.org).
+
 Ce projet est le site web officiel de l'association Nous'Rire, une organisation dédiée à la distribution alimentaire et à la lutte contre la précarité dans le département des Hauts-de-Seine (92).
-Le site se trouve à l'addresse: https://nousrire.org
+Développé et maintenu par l'auteur de ce dépôt (étudiant à EPITA) pour le compte de l'association.
 
 ## 📋 Table des matières
 - [Aperçu](#aperçu)
