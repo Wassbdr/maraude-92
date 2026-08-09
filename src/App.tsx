@@ -51,7 +51,7 @@ const AppContent = () => {
     if (typeof window === 'undefined') return false;
     const savedTheme = localStorage.getItem('nr-theme');
     if (savedTheme) return savedTheme === 'dark';
-    return false; // Default to light mode, ignoring system preferences
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
   const [showIntro, setShowIntro] = useState(() => {
     if (typeof window === 'undefined') return false;
@@ -87,7 +87,7 @@ const AppContent = () => {
   }, [isHomePage]);
 
   return (
-    <div className="app-shell min-h-screen bg-gradient-to-b from-brand-cream-100 via-white to-brand-pink-100/30 relative selection:bg-brand-pink-200 selection:text-brand-pink-900">
+    <div className="app-shell min-h-screen bg-gradient-to-b from-brand-cream-50 via-white to-brand-cream-50 relative">
       <div className="noise-overlay" aria-hidden="true" />
       <IntroLoader visible={showIntro} />
       {isHomePage && <Navbar isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />}
@@ -102,26 +102,35 @@ const AppContent = () => {
             path="/"
             element={
               <main className="relative">
+                <div className="absolute inset-0 bg-gradient-to-b from-brand-cream-50 via-white to-brand-cream-50" />
                 <div className="relative">
                   <motion.section
                     id="accueil"
                     className="seamless-section"
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
+                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
                   >
                     <Hero />
                   </motion.section>
                   <motion.section
                     id="mission"
                     className="seamless-section"
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
+                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.05, ease: 'easeOut' }}
                   >
                     <About />
                   </motion.section>
                   <motion.section
                     id="actions"
                     className="seamless-section"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
+                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
                     <Suspense fallback={<div>Loading...</div>}>
                       <News />
@@ -130,40 +139,40 @@ const AppContent = () => {
                   <motion.section
                     id="calendrier"
                     className="seamless-section"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
+                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
                     <Events />
                   </motion.section>
                   <motion.section
                     id="benevole"
                     className="seamless-section"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
+                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
                     <Volunteer />
                   </motion.section>
                   <motion.section
                     id="don"
                     className="seamless-section"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
+                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
                     <Donate />
                   </motion.section>
                   <motion.section
                     id="contact"
                     className="seamless-section"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
+                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
                   >
                     <Contact />
                   </motion.section>
