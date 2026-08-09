@@ -105,7 +105,7 @@ const About = () => {
                 <div className="aspect-w-4 aspect-h-3">
                   <OptimizedImage
                     src=""
-                    imageName="benevoles_optimized.webp"
+                    imageName="benevoles_optimized_v2.webp"
                     alt="Description"
                     width={800}
                     height={600}
